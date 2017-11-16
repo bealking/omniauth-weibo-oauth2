@@ -81,10 +81,11 @@ module OmniAuth
       #
       def authorize_params
         super.tap do |params|
-          %w[display with_offical_account forcelogin].each do |v|
+          %w[display with_offical_account forcelogin state].each do |v|
             if request.params[v]
               params[v.to_sym] = request.params[v]
             end
+            session["omniauth.state"] = params[v.to_sym] if v == 'state'
           end
         end
       end
